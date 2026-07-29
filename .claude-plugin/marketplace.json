@@ -1,0 +1,18 @@
+{
+  "name": "cockroachdb-plugins",
+  "owner": {
+    "name": "Cockroach Labs"
+  },
+  "metadata": {
+    "description": "CockroachDB plugins for Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "cockroachdb",
+      "source": "./",
+      "description": "Build AI applications on CockroachDB. Includes cookbooks for RAG, vector search, natural-language-to-SQL chatbots, AI agents, and full-stack app blueprints.",
+      "version": "0.1.0",
+      "keywords": ["cockroachdb", "crdb", "sql", "vector-search", "agents", "rag", "distributed-database"]
+    }
+  ]
+}

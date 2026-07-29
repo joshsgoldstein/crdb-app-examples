@@ -1,0 +1,10 @@
+{
+  "name": "cockroachdb",
+  "description": "CockroachDB plugin for Cursor. Build AI applications — RAG, vector search, NL-to-SQL chatbots, and agents — on CockroachDB, with practical cookbooks for full-stack apps.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Cockroach Labs"
+  },
+  "keywords": ["cockroachdb", "crdb", "sql", "vector-search", "agents", "rag", "distributed-database"],
+  "logo": "assets/logo.svg"
+}

@@ -1,0 +1,8 @@
+{
+  "name": "cockroachdb",
+  "description": "CockroachDB plugin for Claude Code. Build AI applications — RAG, vector search, NL-to-SQL chatbots, and agents — on CockroachDB.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Cockroach Labs"
+  }
+}
