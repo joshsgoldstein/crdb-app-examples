@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for contributing to CockroachDB Agent Skills! Here's how to get started.
+Thank you for contributing to CRDB App Examples! Here's how to get started.
 
 [1. Getting Started](#getting-started) | [2. Issues](#issues) | [3. Pull Requests](#pull-requests) | [4. Contributing to a Skill](#contributing-to-a-skill) | [5. Creating a New Skill](#creating-a-new-skill)
 
@@ -8,8 +8,8 @@ Thank you for contributing to CockroachDB Agent Skills! Here's how to get starte
 
 1. Fork and clone the repository:
    ```bash
-   git clone https://github.com/<your-username>/agent-skills.git
-   cd agent-skills
+   git clone https://github.com/<your-username>/crdb-app-examples.git
+   cd crdb-app-examples
    ```
 2. Ensure you have [Python 3.12+](https://www.python.org/) and [uv](https://docs.astral.sh/uv/) installed.
 3. Set `DATABASE_URL` to a CockroachDB cluster (a free [CockroachDB Cloud](https://cockroachlabs.cloud) cluster or a local `cockroach demo`). See the [README](./README.md#configuration) for details.

@@ -1,6 +1,6 @@
-# CockroachDB Agent Skills
+# CRDB App Examples
 
-Agent Skills for building AI applications on [CockroachDB](https://www.cockroachlabs.com) — RAG pipelines, vector search, natural-language-to-SQL chatbots, data explorers, and AI agents, with CockroachDB as both the operational database and the vector store. Each skill is a folder of instructions and references that agents like Claude Code, Cursor, and GitHub Copilot discover to work more accurately and efficiently.
+A standalone Agent Skill for building AI applications on [CockroachDB](https://www.cockroachlabs.com) — one-shot cookbooks for RAG pipelines, vector search, natural-language-to-SQL chatbots, data explorers, and AI agents, with CockroachDB as both the operational database and the vector store. Point an agent like Claude Code, Cursor, or GitHub Copilot at this repo and build any of the example apps end to end.
 
 Works with any agent that supports the [Agent Skills](https://agentskills.io) format.
 
@@ -13,21 +13,21 @@ Your vectors live next to your transactions. One distributed, survivable databas
 ### Using npx skills (Cursor, Claude Code, Gemini CLI, etc.)
 
 ```bash
-npx skills add cockroachdb/agent-skills
+npx skills add joshsgoldstein/crdb-app-examples
 ```
 
 ### Using Claude Code Plugin Manager
 
 ```bash
-/plugin marketplace add cockroachdb/agent-skills
-/plugin install cockroachdb@cockroachdb-plugins
+/plugin marketplace add joshsgoldstein/crdb-app-examples
+/plugin install cockroachdb@crdb-app-examples
 ```
 
 ### Manual: clone and point your agent to the directory
 
 ```bash
-git clone https://github.com/cockroachdb/agent-skills.git
-cd agent-skills
+git clone https://github.com/joshsgoldstein/crdb-app-examples.git
+cd crdb-app-examples
 claude --plugin-dir .
 ```
 

@@ -1,6 +1,6 @@
 # Agent Guidance
 
-This repository contains Agent Skills for building AI applications on CockroachDB.
+This repository is a standalone Agent Skill (`crdb-cookbooks`) with example-app cookbooks for building AI applications on CockroachDB.
 
 ## Repository layout
 

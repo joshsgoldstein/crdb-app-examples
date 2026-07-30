@@ -1,10 +1,10 @@
 {
-  "name": "cockroachdb-plugins",
+  "name": "crdb-app-examples",
   "owner": {
     "name": "Cockroach Labs"
   },
   "metadata": {
-    "description": "CockroachDB plugins for Claude Code"
+    "description": "CockroachDB app-example cookbooks for Claude Code"
   },
   "plugins": [
     {
