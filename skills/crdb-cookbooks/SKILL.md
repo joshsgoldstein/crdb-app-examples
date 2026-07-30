@@ -1,6 +1,11 @@
 ---
 name: crdb-cookbooks
 description: Use this skill when the user wants to build AI applications with CockroachDB (CRDB) — including vector search with the VECTOR type and vector indexes, natural-language-to-SQL chatbots, RAG pipelines, and AI agents backed by CockroachDB. It contains a high-level index of architectural patterns, 'one-shot' blueprints, and best practices for common use cases. Currently, it includes references for building a SQL Agent Chatbot, Data Explorer, Multimodal PDF RAG (Document Search), Basic RAG, Advanced RAG, Basic Agent, Agentic RAG, and optional guidance on how to build a frontend for each of them.
+license: MIT
+compatibility: Requires Python 3.12+, uv, and network access to a CockroachDB cluster (v25.2+ for vector cookbooks)
+metadata:
+  author: cockroach-labs
+  version: "0.1.0"
 ---
 
 # CockroachDB Cookbooks

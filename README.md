@@ -87,6 +87,16 @@ Vector cookbooks additionally need an embedding provider key (CockroachDB has no
 - CockroachDB v24.2+ for the `VECTOR` type; v25.2+ for vector indexes (v25.3+ for the cosine index opclass)
 - Python 3.12+ and [uv](https://docs.astral.sh/uv/) for the generated applications
 
+## Evaluations
+
+The skill ships with behavioral evals (`evals/`): real headless Claude Code sessions scored by an LLM judge against per-scenario rubrics — skill triggering, embeddings-first questioning, correct vector DDL, single-query hybrid RRF, `40001` retries, NL-to-SQL read-only safety, and the one-shot build flow. Agent and judge both default to Opus 4.8:
+
+```bash
+uv run evals/run_evals.py
+```
+
+See [evals/README.md](evals/README.md) for details.
+
 ## Contributing
 
 Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for how to report issues, improve a cookbook, or propose a new skill.

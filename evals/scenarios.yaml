@@ -1,0 +1,93 @@
+# Evaluation scenarios for the crdb-cookbooks skill.
+#
+# Each scenario runs a headless agent session with the plugin loaded, then an
+# LLM judge scores the transcript against the rubric. Prompts are designed to
+# be answerable without a live cluster or API keys (plan/dry-run style), so
+# evals measure skill adherence, not infrastructure.
+
+- id: trigger-basic-rag
+  prompt: >
+    I have a folder of markdown files and a CockroachDB cluster. Plan and write
+    the code for a RAG backend over these files. Do not run anything — produce
+    the plan, schema, and code.
+  fixtures:
+    notes/intro.md: "# Intro\nCockroachDB is a distributed SQL database."
+    notes/vectors.md: "# Vectors\nThe VECTOR type stores embeddings."
+  rubric:
+    - The response follows the crdb-cookbooks skill (project setup / cookbook structure is evident, not a generic ad-hoc answer).
+    - Before or while designing, it addresses where embeddings come from (asks the user, or explicitly states the assumption and why) rather than silently picking a provider.
+    - Schema uses a VECTOR(n) column with n matching the stated embedding model dimension.
+    - Vector index DDL uses CREATE VECTOR INDEX with an opclass matching the distance operator used in queries.
+    - Notes the CockroachDB version requirement for vector indexes (v25.2+).
+
+- id: embeddings-existing
+  prompt: >
+    My CockroachDB table `docs` already has a column of 768-dimensional
+    embeddings produced by sentence-transformers all-mpnet-base-v2. Add
+    semantic search over it. Show the SQL and Python — do not run anything.
+  rubric:
+    - Does NOT re-embed the existing data; uses the stored vectors as-is.
+    - States that query-time embeddings must use the same model (all-mpnet-base-v2).
+    - Uses VECTOR(768) / respects the 768 dimension consistently.
+    - Similarity query places the distance operator in ORDER BY (e.g. embedding <=> $1) with a LIMIT.
+
+- id: hybrid-rrf
+  prompt: >
+    Add hybrid search (keyword + vector) over my CockroachDB `documents` table
+    which has `content` text and `embedding VECTOR(1536)` columns. Show the SQL.
+  rubric:
+    - Fusion is done server-side in a single SQL statement (CTEs ranking each channel, joined and scored), not by merging two result sets in Python.
+    - Uses reciprocal rank fusion (1/(k+rank) style scoring) across the channels.
+    - Full-text channel uses TSVECTOR (computed column or expression) with an inverted/GIN index and ts_rank + @@ matching.
+    - Vector channel keeps ORDER BY distance LIMIT inside its CTE so the vector index can accelerate it.
+
+- id: retry-handling
+  prompt: >
+    Write the Python insert/update path for my CockroachDB app that ingests
+    documents. Do not run anything.
+  rubric:
+    - Wraps writes in a retry helper that catches SQLSTATE 40001 (serialization failure) and retries.
+    - Retry logic includes backoff and a bounded number of attempts.
+    - Uses the DATABASE_URL environment variable for the connection.
+
+- id: nl2sql-safety
+  prompt: >
+    Build a chatbot that answers natural-language questions about the data in
+    my CockroachDB cluster. Describe the architecture and write the core
+    backend code — do not run anything.
+  rubric:
+    - Architecture is an NL-to-SQL agent that introspects the schema and generates SQL with an LLM.
+    - Generated SQL execution is enforced read-only in code (statement validation/allowlist, read-only session or equivalent), not merely requested in the prompt.
+    - Responses stream to the client (SSE or similar).
+    - Chat history is persisted in CockroachDB tables.
+
+- id: version-gating
+  prompt: >
+    I'm running CockroachDB v24.3. Can I use vector indexes for my RAG app?
+    What are my options?
+  rubric:
+    - Correctly states the VECTOR type is available (v24.2+) on v24.3.
+    - Correctly states vector indexes require v25.2+ so they are NOT available on v24.3.
+    - Offers a workable path (brute-force ORDER BY distance without an index, and/or upgrading; may mention cosine index opclass needing v25.3+).
+
+- id: data-explorer
+  prompt: >
+    Build a data explorer API over whatever tables exist in my CockroachDB
+    database: list tables, browse rows with sorting and search, paginate.
+    Write the backend code — do not run anything.
+  rubric:
+    - Discovers tables/columns via information_schema (or equivalent catalog) rather than hardcoding.
+    - Table/column identifiers are handled safely (psycopg sql.Identifier composition or whitelist validation), never raw f-string interpolation of user input.
+    - Implements pagination (LIMIT/OFFSET or keyset) and sorting.
+
+- id: one-shot-build
+  prompt: >
+    Dry run of the /cockroachdb:build workflow for the current folder: list
+    exactly what you would ask me before building, and confirm how the build
+    proceeds after that. Do not build anything yet.
+  fixtures:
+    data/products.csv: "sku,title,description\nA1,Widget,A small widget\nA2,Gadget,A useful gadget"
+  rubric:
+    - All user decisions are gathered in a single up-front batch (app choice, DATABASE_URL/cluster, embedding source, LLM provider/key, frontend yes/no).
+    - It commits to building end-to-end after that batch with no further questions.
+    - It inspected the folder first and used what it found (CSV of products) to pre-fill or recommend (e.g. suggests data explorer / RAG over product text).
